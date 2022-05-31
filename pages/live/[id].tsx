@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-const StreamLive: NextPage = () => {
+const Live: NextPage = () => {
   return (
     <div className="py-10 px-4 space-y-4">
       <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
@@ -196,4 +196,4 @@ const StreamLive: NextPage = () => {
   );
 };
 
-export default StreamLive;
+export default Live;
