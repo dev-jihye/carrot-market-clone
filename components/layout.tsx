@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { cls } from '../libs/utils';
 
 interface LayoutProps {
@@ -14,9 +15,36 @@ export default function Layout({
   hasTabBar,
   children,
 }: LayoutProps) {
+  const router = useRouter();
+  const onClick = () => {
+    router.back();
+  };
   return (
     <div>
-      <div className="bg-white max-w-xl w-full text-lg font-medium py-3 fixed text-gray-800 border-b top-0 flex justify-center items-center">
+      <div
+        className={cls(
+          !canGoBack ? 'justify-center' : '',
+          'bg-white max-w-xl w-full text-lg font-medium py-3 px-4 fixed text-gray-800 border-b top-0 flex items-center'
+        )}
+      >
+        {canGoBack ? (
+          <button onClick={onClick}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+        ) : null}
         {title ? <span>{title}</span> : null}
       </div>
       <div className={cls('pt-12', hasTabBar ? 'pb-24' : '')}>{children}</div>
