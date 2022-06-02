@@ -21,7 +21,13 @@ export default function Enter() {
     setMethod('phone');
   };
   const onValid = (data: EnterForm) => {
-    console.log(data);
+    fetch('/api/users/enter', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   };
   return (
     <div className="mt-16 px-4">
