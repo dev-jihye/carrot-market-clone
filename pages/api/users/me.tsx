@@ -1,20 +1,12 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
 import withHandler, { ResponseType } from '@libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
+import { withApiSession } from '@libs/server/withSession';
 
-declare module 'iron-session' {
-  interface IronSessionData {
-    user?: {
-      id: number;
-    };
-  }
-}
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  console.log(req.session.user);
   const profile = await client.user.findUnique({
     where: { id: req.session.user?.id },
   });
@@ -24,7 +16,4 @@ async function handler(
   });
 }
 
-export default withIronSessionApiRoute(withHandler('GET', handler), {
-  cookieName: 'carrotsession',
-  password: '128937128478915827390570245asdafawfegse',
-});
+export default withApiSession(withHandler('GET', handler));
