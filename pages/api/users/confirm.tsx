@@ -9,17 +9,22 @@ async function handler(
 ) {
   console.log(req.session);
   const { token } = req.body;
-  const exists = await client.token.findUnique({
+  const foundToken = await client.token.findUnique({
     where: {
       payload: token,
     },
   });
-  if (!exists) return res.status(404).end();
+  if (!foundToken) return res.status(404).end();
   req.session.user = {
-    id: exists.userId,
+    id: foundToken.userId,
   };
   await req.session.save();
-  res.status(200).end();
+  await client.token.deleteMany({
+    where: {
+      userId: foundToken.userId,
+    },
+  });
+  res.json({ ok: true });
 }
 
 export default withApiSession(withHandler('POST', handler));
