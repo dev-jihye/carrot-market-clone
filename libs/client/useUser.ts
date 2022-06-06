@@ -4,7 +4,6 @@ import useSWR from 'swr';
 
 export default function useUser() {
   const { data, error } = useSWR('/api/users/me');
-  const [user, setUser] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -12,7 +11,6 @@ export default function useUser() {
       router.replace('/enter');
     }
   }, [data, router]);
-  //
 
   return { user: data?.profile, isLoading: !data && !error };
 }
