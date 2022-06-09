@@ -67,7 +67,7 @@ model Post {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   question  String   @db.MediumText
-  answer    Answer[]
+  answers   Answer[]
   curiosity Curiosity[]
 }
 
