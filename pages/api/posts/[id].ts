@@ -47,6 +47,12 @@ async function handler(
     ok: true,
     post,
   });
+  if (!post) {
+    res.status(404).json({
+      ok: false,
+      error: 'Post not found',
+    });
+  }
 }
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));
