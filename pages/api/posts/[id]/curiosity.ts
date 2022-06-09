@@ -11,27 +11,30 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
-  const alreadyExists = await client.fav.findFirst({
+  const alreadyExists = await client.curiosity.findFirst({
     where: {
-      productId: +id,
       userId: user?.id,
+      postId: +id,
+    },
+    select: {
+      id: true,
     },
   });
   if (alreadyExists) {
-    await client.fav.delete({
+    await client.curiosity.delete({
       where: {
         id: alreadyExists.id,
       },
     });
   } else {
-    await client.fav.create({
+    await client.curiosity.create({
       data: {
         user: {
           connect: {
             id: user?.id,
           },
         },
-        product: {
+        post: {
           connect: {
             id: +id,
           },

@@ -7,10 +7,28 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const profile = await client.user.findUnique({
-    where: { id: req.session.user?.id },
+  const {
+    query: { id },
+    session: { user },
+    body: { answer },
+  } = req;
+
+  const newAnswer = await client.answer.create({
+    data: {
+      user: {
+        connect: {
+          id: user?.id,
+        },
+      },
+      post: {
+        connect: {
+          id: +id,
+        },
+      },
+      answer,
+    },
   });
-  if (!profile) {
+  if (!newAnswer) {
     res.status(404).json({
       ok: false,
       error: 'Page not found',
@@ -18,8 +36,8 @@ async function handler(
   }
   res.json({
     ok: true,
-    profile,
+    answer: newAnswer,
   });
 }
 
-export default withApiSession(withHandler({ methods: ['GET'], handler }));
+export default withApiSession(withHandler({ methods: ['POST'], handler }));
