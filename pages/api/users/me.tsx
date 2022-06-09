@@ -10,6 +10,12 @@ async function handler(
   const profile = await client.user.findUnique({
     where: { id: req.session.user?.id },
   });
+  if (!profile) {
+    res.status(404).json({
+      ok: false,
+      error: 'Page not found',
+    });
+  }
   res.json({
     ok: true,
     profile,

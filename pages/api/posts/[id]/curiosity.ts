@@ -42,7 +42,12 @@ async function handler(
       },
     });
   }
-
+  if (!alreadyExists) {
+    res.status(404).json({
+      ok: false,
+      error: 'Page not found',
+    });
+  }
   res.json({
     ok: true,
   });
