@@ -2,11 +2,30 @@ import type { NextPage } from 'next';
 import Button from '@components/button';
 import Input from '@components/input';
 import Layout from '@components/layout';
+import useUser from '@libs/client/useUser';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+
+interface EditProfileForm {
+  email?: string;
+  phone?: string;
+}
 
 const EditProfile: NextPage = () => {
+  const { user } = useUser();
+  const { register, setValue, handleSubmit } = useForm<EditProfileForm>();
+
+  useEffect(() => {
+    if (user?.email) setValue('email', user.email);
+    if (user?.phone) setValue('phone', user.phone);
+  }, [user, setValue]);
+
+  const onValid = (form: EditProfileForm) => {
+    console.log(form);
+  };
   return (
     <Layout title="Edit Profile" canGoBack>
-      <form className="py-10 px-4 space-y-4">
+      <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
         <div className="flex items-center space-x-3">
           <div className="w-14 h-14 rounded-full bg-slate-500" />
           <label
@@ -22,9 +41,16 @@ const EditProfile: NextPage = () => {
             />
           </label>
         </div>
-        <Input required label="Email address" name="email" type="email" />
         <Input
-          required
+          register={register('email')}
+          required={false}
+          label="Email address"
+          name="email"
+          type="email"
+        />
+        <Input
+          register={register('phone')}
+          required={false}
           label="Phone number"
           name="phone"
           type="number"
