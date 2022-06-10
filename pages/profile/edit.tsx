@@ -13,6 +13,11 @@ interface EditProfileForm {
   formErrors?: string;
 }
 
+interface EditProfileResponse {
+  ok: boolean;
+  errors?: string;
+}
+
 const EditProfile: NextPage = () => {
   const { user } = useUser();
   const {
@@ -28,7 +33,8 @@ const EditProfile: NextPage = () => {
     if (user?.phone) setValue('phone', user.phone);
   }, [user, setValue]);
 
-  const [editProfile, { data, loading }] = useMutation(`/api/users/me`);
+  const [editProfile, { data, loading }] =
+    useMutation<EditProfileResponse>(`/api/users/me`);
 
   const onValid = ({ email, phone }: EditProfileForm) => {
     if (email === '' && phone === '') {
