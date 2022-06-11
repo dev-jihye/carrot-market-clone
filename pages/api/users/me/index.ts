@@ -7,23 +7,26 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const profile = await client.user.findUnique({
-    where: { id: req.session.user?.id },
-  });
   if (req.method === 'GET') {
-    if (!profile) {
-      res.status(404).json({
-        ok: false,
-        error: 'Page not found',
-      });
-    }
+    const profile = await client.user.findUnique({
+      where: { id: req.session.user?.id },
+    });
+    res.json({
+      ok: true,
+      profile,
+    });
   }
   if (req.method === 'POST') {
     const {
       session: { user },
       body: { email, phone },
     } = req;
-    if (email) {
+    const currentUser = await client.user.findUnique({
+      where: {
+        id: user?.id,
+      },
+    });
+    if (email && email !== currentUser?.email) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
           where: { email },
@@ -47,7 +50,8 @@ async function handler(
         },
       });
       res.json({ ok: true });
-    } else if (phone) {
+    }
+    if (phone && phone !== currentUser?.phone) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
           where: { phone },
@@ -71,11 +75,10 @@ async function handler(
         },
       });
     }
+    res.json({
+      ok: true,
+    });
   }
-  res.json({
-    ok: true,
-    profile,
-  });
 }
 
 export default withApiSession(
