@@ -15,7 +15,7 @@ interface EditProfileForm {
 
 interface EditProfileResponse {
   ok: boolean;
-  errors?: string;
+  error?: string;
 }
 
 const EditProfile: NextPage = () => {
@@ -37,13 +37,20 @@ const EditProfile: NextPage = () => {
     useMutation<EditProfileResponse>(`/api/users/me`);
 
   const onValid = ({ email, phone }: EditProfileForm) => {
+    if (loading) return;
     if (email === '' && phone === '') {
       return setError('formErrors', {
         message: 'Email or Phone number are required.',
       });
-      editProfile({ email, phone });
     }
+    editProfile({ email, phone });
   };
+
+  useEffect(() => {
+    if (data && !data.ok && data.error) {
+      setError('formErrors', { message: data.error });
+    }
+  }, [data, setError]);
   return (
     <Layout title="Edit Profile" canGoBack>
       <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
@@ -82,7 +89,7 @@ const EditProfile: NextPage = () => {
             {errors.formErrors.message}
           </span>
         ) : null}
-        <Button text="Update profile" />
+        <Button text={loading ? 'Loading...' : 'Update profile'} />
       </form>
     </Layout>
   );
