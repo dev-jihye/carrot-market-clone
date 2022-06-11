@@ -41,7 +41,7 @@ async function handler(
           select: {
             id: true,
             name: true,
-            avartar: true,
+            avatar: true,
           },
         },
         _count: {
