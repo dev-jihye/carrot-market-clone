@@ -129,7 +129,7 @@ export default function Layout({
             <a
               className={cls(
                 'flex flex-col items-center space-y-2 ',
-                router.pathname === '/live'
+                router.pathname === '/stream'
                   ? 'text-orange-500'
                   : 'hover:text-gray-500 transition-colors'
               )}
