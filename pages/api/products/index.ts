@@ -8,7 +8,12 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   if (req.method === 'GET') {
+    const {
+      query: { page },
+    } = req;
     const products = await client.product.findMany({
+      take: 10,
+      skip: (+page - 1) * 10,
       include: {
         _count: {
           select: {
