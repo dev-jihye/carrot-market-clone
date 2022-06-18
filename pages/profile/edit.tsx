@@ -37,7 +37,7 @@ const EditProfile: NextPage = () => {
     if (user?.phone) setValue('phone', user.phone);
     if (user?.avatar)
       setAvatarPreview(
-        `https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${user?.avatar}/public`
+        `https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${user?.avatar}/avatar`
       );
   }, [user, setValue]);
 
