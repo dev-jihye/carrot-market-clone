@@ -9,7 +9,7 @@ async function handler(
 ) {
   if (req.method === 'GET') {
     const {
-      query: { page },
+      query: { page = 1 },
     } = req;
     const products = await client.product.findMany({
       take: 10,
