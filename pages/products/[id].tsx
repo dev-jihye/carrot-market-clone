@@ -36,7 +36,7 @@ const ItemDetail: NextPage = () => {
       <div className="px-4 py-4">
         <div className="mb-8">
           <img
-            src={`https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${data?.product.image}/public`}
+            src={`https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${data?.product?.image}/public`}
             className="h-96 bg-slate-300 mx-auto"
           />
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
