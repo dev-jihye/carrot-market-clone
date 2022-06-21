@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Product, User } from '@prisma/client';
 import useMutation from '@libs/client/useMutation';
 import { cls } from '@libs/client/utils';
+import Image from 'next/image';
 
 interface ProductWithUser extends Product {
   user: User;
@@ -39,10 +40,13 @@ const ItemDetail: NextPage = () => {
             src={`https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${data?.product?.image}/public`}
             className="h-96 bg-slate-300 mx-auto"
           />
-          <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
-            <img
+          <div className="mt-[1000px] flex cursor-pointer py-3 border-t border-b items-center space-x-3">
+            <Image
+              width={48}
+              height={48}
               src={`https://imagedelivery.net/F8_vw_59rp9m4aU4WbbrxA/${data?.product?.user?.avatar}/avatar`}
               className="w-12 h-12 rounded-full bg-slate-300"
+              alt="avatar"
             />
             <div>
               <p className="text-sm font-medium text-gray-700">
